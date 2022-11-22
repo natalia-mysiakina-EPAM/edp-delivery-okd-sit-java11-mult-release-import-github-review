@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "java11-mult-release-import-github-review.fullname" . }}-test-connection"
+  labels:
+    {{- include "java11-mult-release-import-github-review.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "java11-mult-release-import-github-review.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never
